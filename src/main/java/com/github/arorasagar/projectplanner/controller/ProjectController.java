@@ -2,8 +2,9 @@ package com.github.arorasagar.projectplanner.controller;
 
 import com.github.arorasagar.projectplanner.ProjectService;
 import com.github.arorasagar.projectplanner.model.Project;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -11,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 @Path("/projects")
 public class ProjectController {
 
-    Logger LOGGER = LogManager.getLogger(ProjectController.class);
+    Logger LOGGER = LoggerFactory.getLogger(ProjectController.class);
 
     ProjectService projectService;
     public ProjectController() {
@@ -27,17 +28,24 @@ public class ProjectController {
         return projectService.getProject(projectId);
     }
 
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getProjects(@PathParam(value = "projectId") String projectId) {
+        return "hello";
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Project postProject(Project project) {
-     //   LOGGER.info("Got request for {}", project.());
-        Project project1 = Project.builder()
-                .projectName("df")
-                .isActive(true)
-                .startDate("dfsj")
-                .build();
-        projectService.writeLogfile(project1);
+        Gson gson = new Gson();
+        LOGGER.info("Got request for {}", gson.toJson(project));
+/*        Project project1 = Project.builder()
+                .projectId("4")
+                .startDate(project.getStartDate())
+                .projectName(project.getProjectName())
+                .build();*/
+        projectService.writeProject(project);
         return project;
     }
 }

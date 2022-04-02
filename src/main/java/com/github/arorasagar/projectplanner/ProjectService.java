@@ -1,19 +1,24 @@
 package com.github.arorasagar.projectplanner;
 
+import com.github.arorasagar.projectplanner.controller.ProjectController;
 import com.github.arorasagar.projectplanner.model.Project;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class ProjectService {
 
+    Logger LOGGER = LoggerFactory.getLogger(ProjectService.class);
     public Project getProject(String projectId) {
-
+        Transaction transaction = null;
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
             String hql = "FROM Project WHERE projectId = :project_id";
            // session.createQuery("FROM project").
+            transaction = session.beginTransaction();
             Query<Project> query = session.createQuery(hql, Project.class).setParameter("project_id", projectId);
             List<Project> results = query.list();
 
@@ -21,6 +26,7 @@ public class ProjectService {
                 return results.get(0);
             }
 
+            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -29,7 +35,7 @@ public class ProjectService {
     }
 
 
-    public void writeLogfile(Project project) {
+    public void writeProject(Project project) {
 
         Transaction transaction = null;
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -38,8 +44,9 @@ public class ProjectService {
             session.save(project);
 
             transaction.commit();
-            //logger.info("Transcation complete.");
+            LOGGER.info("Transcation complete.");
         } catch (Exception e) {
+            LOGGER.info("Exception occured : {}", e.getMessage());
             if (transaction != null) {
                 transaction.rollback();
             }
