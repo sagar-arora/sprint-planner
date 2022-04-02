@@ -24,14 +24,7 @@ public class ProjectController {
     @Produces(MediaType.APPLICATION_JSON)
     public Project getProject(@PathParam(value = "projectId") String projectId) {
         LOGGER.info("Got request for {}", projectId);
-
         return projectService.getProject(projectId);
-    }
-
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getProjects(@PathParam(value = "projectId") String projectId) {
-        return "hello";
     }
 
     @POST
@@ -40,11 +33,6 @@ public class ProjectController {
     public Project postProject(Project project) {
         Gson gson = new Gson();
         LOGGER.info("Got request for {}", gson.toJson(project));
-/*        Project project1 = Project.builder()
-                .projectId("4")
-                .startDate(project.getStartDate())
-                .projectName(project.getProjectName())
-                .build();*/
         projectService.writeProject(project);
         return project;
     }
