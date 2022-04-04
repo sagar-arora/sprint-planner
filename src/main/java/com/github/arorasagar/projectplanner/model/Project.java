@@ -1,8 +1,10 @@
 package com.github.arorasagar.projectplanner.model;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,4 +22,8 @@ public class Project {
     private String projectName;
 
     private String startDate;
+
+    @OneToMany(mappedBy = "project")
+    @JsonManagedReference
+    private List<Sprint> sprints;
 }

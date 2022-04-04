@@ -1,6 +1,6 @@
 package com.github.arorasagar.projectplanner.controller;
 
-import com.github.arorasagar.projectplanner.ProjectService;
+import com.github.arorasagar.projectplanner.service.ProjectService;
 import com.github.arorasagar.projectplanner.model.Project;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
@@ -11,7 +11,6 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/projects")
 public class ProjectController {
-
     Logger LOGGER = LoggerFactory.getLogger(ProjectController.class);
 
     ProjectService projectService;
@@ -33,7 +32,7 @@ public class ProjectController {
     public Project postProject(Project project) {
         Gson gson = new Gson();
         LOGGER.info("Got request for {}", gson.toJson(project));
-        projectService.writeProject(project);
+        projectService.saveProject(project);
         return project;
     }
 }
