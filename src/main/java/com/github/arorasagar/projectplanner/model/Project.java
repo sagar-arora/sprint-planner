@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,7 @@ public class Project {
 
     private String startDate;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     @JsonManagedReference
-    private List<Sprint> sprints;
+    private List<Sprint> sprints = new ArrayList<>();
 }

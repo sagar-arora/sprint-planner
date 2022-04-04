@@ -2,6 +2,8 @@ package com.github.arorasagar.projectplanner.service;
 
 import com.github.arorasagar.projectplanner.HibernateUtil;
 import com.github.arorasagar.projectplanner.model.Sprint;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -13,6 +15,7 @@ import java.util.List;
 public class SprintService {
 
     Logger LOGGER = LoggerFactory.getLogger(SprintService.class);
+    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
     public Sprint getSprint(String SprintId) {
         Transaction transaction = null;

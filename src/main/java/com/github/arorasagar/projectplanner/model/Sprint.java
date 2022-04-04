@@ -1,6 +1,7 @@
 package com.github.arorasagar.projectplanner.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.google.gson.annotations.Expose;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -27,8 +28,9 @@ public class Sprint {
 
     private String endDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "project_id")
     @JsonBackReference
+    @Expose
     private Project project;
 }

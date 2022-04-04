@@ -2,6 +2,7 @@ package com.github.arorasagar.projectplanner.controller;
 
 import com.github.arorasagar.projectplanner.model.Project;
 import com.github.arorasagar.projectplanner.model.Sprint;
+import com.github.arorasagar.projectplanner.model.SprintDto;
 import com.github.arorasagar.projectplanner.service.ProjectService;
 import com.github.arorasagar.projectplanner.service.SprintService;
 import com.google.gson.Gson;
@@ -42,7 +43,8 @@ public class SprintController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/projects/{projectId}/sprints")
-    public Sprint postProject(@PathParam(value = "projectId") String projectId, Sprint sprint) {
+    public Sprint postProject(@PathParam(value = "projectId") String projectId,
+                              SprintDto sprint) {
         Gson gson = new Gson();
         LOGGER.info("Got request for projectId: {} to create new sprint {}", projectId, gson.toJson(sprint));
         Project project = projectService.getProject(projectId);
@@ -51,8 +53,16 @@ public class SprintController {
             throw new RuntimeException("project not found");
         }
 
-        sprint.setProject(project);
-        sprintService.saveSprint(sprint);
-        return sprint;
+        Sprint _sprint = Sprint
+                .builder()
+                .sprintName(sprint.getSprintName())
+                .startDate(sprint.getStartDate())
+                .endDate(sprint.getEndDate())
+                .build();
+
+        _sprint.setProject(project);
+        sprintService.saveSprint(_sprint);
+
+        return _sprint;
     }
 }

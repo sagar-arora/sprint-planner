@@ -3,6 +3,7 @@ package com.github.arorasagar.projectplanner.service;
 import com.github.arorasagar.projectplanner.HibernateUtil;
 import com.github.arorasagar.projectplanner.model.Project;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -14,6 +15,7 @@ import java.util.List;
 public class ProjectService {
 
     Logger LOGGER = LoggerFactory.getLogger(ProjectService.class);
+    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
     public Project getProject(String projectId) {
         Transaction transaction = null;
@@ -26,7 +28,6 @@ public class ProjectService {
             List<Project> results = query.list();
 
             if (results != null && results.size() == 1) {
-                Gson gson = new Gson();
                 LOGGER.info("Successfully retrieved the project with projectId: {}, {}", projectId,
                         gson.toJson(results.get(0)));
                 return results.get(0);
