@@ -30,10 +30,18 @@ public class ProjectController {
         return projectService.getProject(projectId);
     }
 
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Project> getProjects() {
+        LOGGER.info("Got request to get all projects");
+        return projectService.getProjects();
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Project postProject(Project project) {
+    public Project createSprint(Project project) {
         Gson gson = new Gson();
         LOGGER.info("Got request for {}", gson.toJson(project));
         projectService.saveProject(project);
@@ -59,7 +67,7 @@ public class ProjectController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{projectId}/sprints")
-    public Sprint postProject(@PathParam(value = "projectId") String projectId, Sprint sprint) {
+    public Sprint createSprint(@PathParam(value = "projectId") String projectId, Sprint sprint) {
         Gson gson = new Gson();
         LOGGER.info("Got request for projectId: {} to create new sprint {}", projectId, gson.toJson(sprint));
         Project project = projectService.getProject(projectId);

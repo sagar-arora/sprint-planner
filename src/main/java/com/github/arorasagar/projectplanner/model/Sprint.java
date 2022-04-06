@@ -1,12 +1,14 @@
 package com.github.arorasagar.projectplanner.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.google.gson.annotations.Expose;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,4 +35,8 @@ public class Sprint {
     @JsonBackReference
     @Expose
     private Project project;
+
+    @OneToMany(mappedBy = "sprint", fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<Task> tasks = new ArrayList<>();
 }

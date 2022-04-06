@@ -5,7 +5,7 @@
     <session-factory>
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <!-- property name="connection.driver_class">com.mysql.jdbc.Driver</property -->
-        <property name="connection.url">jdbc:mysql://localhost/project_planner1</property>
+        <property name="connection.url">jdbc:mysql://localhost/project_planner1?useSSL=false</property>
         <property name="dialect">org.hibernate.dialect.MySQL8Dialect</property>
         <property name="connection.username">projectuser1</property>
         <property name="connection.password">abc123</property>
@@ -22,5 +22,6 @@
             com.vladmihalcea.hibernate.type.util.CamelCaseToSnakeCaseNamingStrategy</property>
         <mapping class="com.github.arorasagar.projectplanner.model.Project" />
         <mapping class="com.github.arorasagar.projectplanner.model.Sprint" />
+        <mapping class="com.github.arorasagar.projectplanner.model.Task" />
     </session-factory>
 </hibernate-configuration>
